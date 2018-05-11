@@ -1,6 +1,16 @@
 // Include connection to MySQL server
 const sqlserver = require("../config/connection")
 
+function printQuestionMarks(num) {
+    let arr = [];
+
+    for (let i = 0; i < num; i++) {
+        arr.push("?")
+    }
+
+    return arr.toString();
+}
+
 function objToSql(obj) {
     let arr = [];
 
@@ -20,26 +30,30 @@ function objToSql(obj) {
 
 // Define ORM
 const orm = {
-    getAllBurgers: function (tableInput, cb) {
-        const queryString = `SELECT * FROM ${tableInput}`;
+    // SELECT * FROM burgers WHERE devoured = 0
+    getAllBurgers: function (table, itemToSelect, condition, cb) {
+        const queryString = `SELECT ${itemToSelect} FROM ${table} WHERE ${condition}`;
+
+        console.log(queryString);
+
         sqlserver.query(queryString, (err, data) => {
             if (err) { throw err };
             cb(data);
         });
     },
-    createBurger: function (table, cols, vals, cb) {
-        const queryString = `INSERT INTO ${table} (${cols.toString()} VALUES (${vals}))`;
 
-        console.log(queryString);
+    createBurger: function (table, colVal, itemToInsert, cb) {
+        // INSERT INTO burgers (burger_name) VALUE (burger name received from POST)
+        const queryString = `INSERT INTO ${table} (${colVal}) VALUES ('${itemToInsert}')`;
 
-
-        sqlserver.query(queryString, vals, (err, data) => {
+        sqlserver.query(queryString, (err, data) => {
             if (err) { throw err; }
             console.log(data);
             cb(data);
         });
     },
     updateBurger: function (table, objColVals, condition, cb) {
+        // UPDATE burgers SET devoured = 1 WHERE burger_name = name received from POST
         const queryString = `UPDATE ${table} SET ${objToSql(objColVas)} WHERE ${condition}`;
         console.log(queryString);
 

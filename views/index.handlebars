@@ -1,0 +1,19 @@
+<h1>Eat-Dat-Burger!</h1>
+
+<h2>Burgers waiting to be eaten</h2>
+
+<ul>
+    {{#each burgers}}
+    <p>{{this.id}}. {{this.burger_name}}</p>
+    {{/each}}
+</ul>
+
+<h2>Add a burger</h2>
+<form class="create-form" method="POST" action="/api/create">
+    <div class="form-group">
+        <label for="burger">Burger to Add:</label>
+        <br>
+        <input type="text" name="burger" id="burger_name">
+    </div>
+    <button type="submit">Add Burger</button>
+</form>

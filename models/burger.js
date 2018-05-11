@@ -2,21 +2,21 @@
 const orm = require("../config/orm");
 
 const burger = {
-    getAllBurgers: (cb) => {
-        orm.getAllBurgers("burgers", (res) => {
-            cb(res);
+    getAllBurgers: function (cb) {
+        orm.getAllBurgers("burgers", "*", "devoured=0", function (result) {
+            cb(result);
         });
     },
-    createBurger: (cols, vals, cb) => {
-        orm.createBurger("burgers", cols, vals, (res) => {
-            cb(res);
+    createBurger: function (burger, cb) {
+        orm.createBurger("burgers", "burger_name", burger, function (result) {
+            cb(result);
         });
     },
-    updateBurger: (objColVals, condition, cb) => {
-        orm.updateBurger("burgers", objColVals, condition, (res) => {
-            cb(res);
-        });
-    }
+    // updateBurger: function (objColVals, condition, cb) {
+    //     orm.updateBurger("burgers", objColVals, condition, (res) => {
+    //         cb(res);
+    //     });
+    // }
 };
 
 module.exports = burger;
